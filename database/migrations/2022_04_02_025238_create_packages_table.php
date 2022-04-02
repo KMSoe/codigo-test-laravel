@@ -18,6 +18,7 @@ class CreatePackagesTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('type');
+            $table->string('image');
             $table->integer('total_credit');
             $table->integer('validity_month');
             $table->double('price');

@@ -17,6 +17,7 @@ class PackageFactory extends Factory
             "name" => "Unlimated Classes",
             "description" => $this->faker->sentence(10),
             "type" => $this->faker->word(),
+            "image" => $this->faker->imageUrl(),
             "total_credit" => $this->faker->numberBetween($min = 0, $max = 50),
             "validity_month" => $this->faker->numberBetween($min = 1, $max = 24),
             "price" => $this->faker->doubleval(),
