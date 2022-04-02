@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
- 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -42,15 +42,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function codes() {
+    public function codes()
+    {
         return $this->hasMany(PromoCode::class);
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
-    public function transactions() {
+    public function transactions()
+    {
         return $this->hasMany(Transaction::class);
+    }
+
+    static function boot()
+    {
+        parent::boot();
+        User::observe(new \App\Observers\UserActionsObserver);
     }
 }

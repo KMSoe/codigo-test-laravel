@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\RefreshToken;
 use Laravel\Passport\Token;
@@ -37,6 +39,7 @@ class AuthController extends Controller
         $token = $user->createToken('LaravelAuth')->accessToken;
 
         if ($success) {
+            Log::info("$user registered at " . Carbon::now());
             return response()->json([
                 "success" => true,
                 "id" => $user->id,
@@ -89,6 +92,7 @@ class AuthController extends Controller
         Token::whereIn('id', $tokens)->update(['revoked' => true]);
         RefreshToken::whereIn('access_token_id', $tokens)->update(['revoked' => true]);
         $token->revoke();
+        Log::info("User logout at " . Carbon::now());
 
         return response()->json([
             "success" => true,
