@@ -44,6 +44,7 @@ class OrderController extends Controller
                 "errors" => $validator->errors(),
             ], 400);
         }
+        
         try {
             $package = Package::findOrFail($request->package_id);
             $total = ($package->price * $package->gst_percent) / 100;
