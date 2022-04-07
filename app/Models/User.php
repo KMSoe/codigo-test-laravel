@@ -52,11 +52,6 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class);
-    }
-
     static function boot()
     {
         parent::boot();

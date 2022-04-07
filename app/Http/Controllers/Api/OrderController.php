@@ -36,6 +36,7 @@ class OrderController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'package_id' => 'required',
+            'grant_total' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -46,13 +47,12 @@ class OrderController extends Controller
         }
         
         try {
-            $package = Package::findOrFail($request->package_id);
-            $total = ($package->price * $package->gst_percent) / 100;
-
+            
             $order = new Order();
             $order->package_id = $request->package_id;
+            $order->discount = $request->discount ?? 0.0;
             $order->user_id = auth()->user()->id;
-            $order->grant_total = $total;
+            $order->grant_total = $request->grant_total;
             $order->save();
 
             return response()->json([

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Package;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class PackageController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-        $this->middleware('admin')->except(['index']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
     /**
      * Display a listing of the resource.
@@ -60,7 +61,7 @@ class PackageController extends Controller
             return response()->json([
                 "errorCode" => 1,
                 "message" => "Something Went Wrong!!!"
-            ], 500); 
+            ], 500);
         }
     }
 
@@ -83,7 +84,29 @@ class PackageController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $package = Package::findOrFail($id);
+            $package->tags = $package->tags;
+            return response()->json([
+                "errorCode" => 0,
+                "message" => "Success",
+                "meta" => [
+                    "id" => $package->id
+                ],
+                "data" => $package
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                "errorCode" => 1,
+                "message" => "Something Went Wrong!!!"
+            ], 404);
+        }
+        catch (QueryException $e) {
+            return response()->json([
+                "errorCode" => 1,
+                "message" => "Something Went Wrong!!!"
+            ], 500);
+        }
     }
 
     /**

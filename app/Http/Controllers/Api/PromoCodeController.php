@@ -15,6 +15,6 @@ class PromoCodeController extends Controller
 
     public function isValid(Request $request)
     {
-        return PromoCode::where("code", $request->code)->get();
+        return PromoCode::where("code", $request->code)->first();
     }
 }

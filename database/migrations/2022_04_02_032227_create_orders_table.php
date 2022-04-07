@@ -16,6 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->double("grant_total");
+            $table->double("discount")->default(0.0);
             $table->foreignId("package_id")->constrained();
             $table->foreignId("user_id")->constrained();
             $table->timestamps();

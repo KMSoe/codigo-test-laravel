@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\PromoCodeController;
-use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +26,5 @@ Route::get('/user', [AuthController::class, 'getUser'])->middleware('auth:api');
 Route::apiResources([
     "packages" => PackageController::class,
     "orders" => OrderController::class,
-    "transactions" => TransactionController::class,
 ]);
-Route::get('/codes/check', [PromoCodeController::class, 'isValid']);
+Route::post('/codes/check', [PromoCodeController::class, 'isValid']);
