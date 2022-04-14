@@ -55,12 +55,14 @@ class OrderController extends Controller
             $order->grant_total = $request->grant_total;
             $order->save();
 
+            $order->package = $order->package;
+
             return response()->json([
                 "success" => true,
                 "meta" => [
                     "id" => $order->id,
                 ],
-                "data" =>  $order,
+                "data" => $order,
             ], 201);
         } catch (QueryException $th) {
             return response()->json([
@@ -86,7 +88,6 @@ class OrderController extends Controller
         try {
             $order = Order::with('package')->findOrFail($id);
 
-
             return response()->json([
                 "success" => true,
                 "meta" => [
@@ -111,30 +112,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $order = Order::findOrFail($id);
-
-            $order->grant_total = $request->grant_total;
-            $order->save();
-
-            return response()->json([
-                "success" => true,
-                "meta" => [
-                    "id" => $order->id,
-                ],
-                "data" =>  $order,
-            ], 200);
-        } catch (ModelNotFoundException $th) {
-            return response()->json([
-                "success" => false,
-                "message" => "Something Went Wrong",
-            ], 404);
-        } catch (QueryException $th) {
-            return response()->json([
-                "success" => false,
-                "message" => "Something Went Wrong",
-            ], 500);
-        }
+        //
     }
 
     /**
